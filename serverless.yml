@@ -1,0 +1,31 @@
+service: api-album
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  architecture: arm64
+  stage: production
+  region: us-east-1
+  memorySize: 2048
+  logRetentionInDays: 1
+  timeout: 15
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    events:
+      - httpApi:
+          path: /videos
+          method: get
+      - httpApi:
+          path: /videos
+          method: post
+      - httpApi:
+          path: /videos/{videoId}
+          method: delete
+
+plugins:
+  - serverless-jetpack
+  - serverless-offline
